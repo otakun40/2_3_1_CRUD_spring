@@ -4,10 +4,12 @@ import app.dao.UsersDao;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UsersServiceImpl implements UsersService {
     private final UsersDao usersDao;
 
@@ -17,7 +19,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(long id) {
         return usersDao.getById(id);
     }
 
@@ -27,16 +29,19 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         usersDao.save(user);
     }
 
     @Override
-    public void delete(int id) {
+    @Transactional
+    public void delete(long id) {
         usersDao.delete(id);
     }
 
     @Override
+    @Transactional
     public void update(User user) {
         usersDao.update(user);
     }
