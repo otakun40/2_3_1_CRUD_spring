@@ -7,7 +7,10 @@
 </head>
 <body>
 <p>Hello there!</p>
-<p>To show all users</p>
-<a href="/users">Press here</a>
+
+<form th:method="GET" th:action="@{/users}">
+    <input type="submit" value="Press here to show all users">
+</form>
+
 </body>
 </html>
