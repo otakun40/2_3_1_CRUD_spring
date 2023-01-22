@@ -1,6 +1,7 @@
 package app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -10,16 +11,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 3, max = 30, message = "Name should be between 2 and 30 characters")
     @Column(name = "name")
     private String name;
 
+    @NotEmpty(message = "Company should not be empty")
     @Column(name = "company")
     private String company;
 
+    @Min(value = 0, message = "Age cannot be negative")
+    @Max(value = 150, message = "Age should be less then 150")
     @Column(name = "age")
-    private byte age;
+    private int age;
 
-    public User(int id, String name, String company, byte age) {
+    public User(int id, String name, String company, int age) {
         this.id = id;
         this.name = name;
         this.company = company;
@@ -54,11 +60,11 @@ public class User {
         this.company = company;
     }
 
-    public byte getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(byte age) {
+    public void setAge(int age) {
         this.age = age;
     }
 

@@ -5,7 +5,9 @@ import app.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
@@ -35,7 +37,10 @@ public class UsersController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/users/create";
+        }
         usersService.save(user);
         return "redirect:/users";
     }
@@ -53,7 +58,12 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}")
-    public String edit(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+    public String edit(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                       @PathVariable("id") long id) {
+        if (bindingResult.hasErrors()) {
+            user.setId(id);
+            return "/users/edit";
+        }
         user.setId(id);
         usersService.update(user);
         return "redirect:/users";
